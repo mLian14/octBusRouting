@@ -453,3 +453,82 @@ Solution count 10: 3752.97 3754.66 3760 ... 4379.63
 Optimal solution found (tolerance 0.00e+00)
 Best objective 3.752965871052e+03, best bound 3.752965871052e+03, gap 0.0000%
 Warning: general constraint 3911 and general constraint 3916 have the same name "v0->v1_o1_enter->leaveabsX"
+
+Gurobi 10.0.0 (mac64[arm]) logging started Sun Jun 11 13:41:57 2023
+
+Set parameter LogFile to value "octilinearBusRouting.log"
+Set parameter MIPGap to value 0
+Set parameter MIPGapAbs to value 0
+Set parameter TimeLimit to value 36000
+Gurobi Optimizer version 10.0.0 build v10.0.0rc2 (mac64[arm])
+
+CPU model: Apple M1
+Thread count: 8 physical cores, 8 logical processors, using up to 8 threads
+
+Optimize a model with 3908 rows, 3009 columns and 12124 nonzeros
+Model fingerprint: 0x13ee43b5
+Model has 464 general constraints
+Variable types: 0 continuous, 3009 integer (1544 binary)
+Coefficient statistics:
+  Matrix range     [1e+00, 1e+05]
+  Objective range  [1e+00, 1e+00]
+  Bounds range     [1e+00, 1e+05]
+  RHS range        [1e+00, 1e+05]
+Presolve removed 2370 rows and 1986 columns
+Presolve time: 0.04s
+Presolved: 1538 rows, 1023 columns, 5000 nonzeros
+Variable types: 0 continuous, 1023 integer (625 binary)
+Found heuristic solution: objective 12329.670842
+Found heuristic solution: objective 8160.6591566
+
+Root relaxation: objective 0.000000e+00, 443 iterations, 0.00 seconds (0.00 work units)
+
+    Nodes    |    Current Node    |     Objective Bounds      |     Work
+ Expl Unexpl |  Obj  Depth IntInf | Incumbent    BestBd   Gap | It/Node Time
+
+     0     0    0.00000    0  122 8160.65916    0.00000   100%     -    0s
+H    0     0                    6694.1196924    0.00000   100%     -    0s
+H    0     0                    4940.8237354    0.00000   100%     -    0s
+     0     0 2285.65698    0  195 4940.82374 2285.65698  53.7%     -    0s
+     0     0 2331.04343    0  193 4940.82374 2331.04343  52.8%     -    0s
+H    0     0                    4531.7312396 2331.04343  48.6%     -    0s
+     0     0 2696.35247    0  107 4531.73124 2696.35247  40.5%     -    0s
+     0     0 2696.35247    0  107 4531.73124 2696.35247  40.5%     -    0s
+H    0     0                    4506.2724369 2696.35247  40.2%     -    0s
+     0     0 2723.00576    0  125 4506.27244 2723.00576  39.6%     -    0s
+     0     0 2723.00576    0  125 4506.27244 2723.00576  39.6%     -    0s
+     0     0 2723.00576    0  140 4506.27244 2723.00576  39.6%     -    0s
+H    0     0                    4405.1050481 2723.00576  38.2%     -    0s
+     0     0 2723.00576    0  139 4405.10505 2723.00576  38.2%     -    0s
+H    0     0                    4379.6307345 2723.00576  37.8%     -    0s
+H    0     0                    4170.3455967 2730.21460  34.5%     -    0s
+H    0     0                    4000.3283528 2730.21460  31.8%     -    0s
+     0     0 2730.21460    0  160 4000.32835 2730.21460  31.8%     -    0s
+H    0     0                    3986.1862172 2730.21460  31.5%     -    0s
+     0     0 2730.21460    0  160 3986.18622 2730.21460  31.5%     -    0s
+H    0     0                    3776.2156544 2730.49692  27.7%     -    0s
+     0     2 2730.49692    0  160 3776.21565 2730.49692  27.7%     -    0s
+H 1029   587                    3762.6988437 3023.04694  19.7%   7.4    0s
+H 1167   616                    3761.6988437 3036.87146  19.3%   7.4    0s
+H 2211   965                    3760.0003589 3064.00362  18.5%   7.5    0s
+H 2216   953                    3754.6643559 3064.00362  18.4%   7.5    0s
+H 3005  1226                    3752.9658711 3263.16226  13.1%   7.3    0s
+
+Cutting planes:
+  Learned: 3
+  Gomory: 9
+  Implied bound: 3
+  MIR: 8
+  Flow cover: 28
+  GUB cover: 1
+  RLT: 3
+  Relax-and-lift: 4
+
+Explored 4586 nodes (40769 simplex iterations) in 1.97 seconds (1.65 work units)
+Thread count was 8 (of 8 available processors)
+
+Solution count 10: 3752.97 3754.66 3760 ... 4379.63
+
+Optimal solution found (tolerance 0.00e+00)
+Best objective 3.752965871052e+03, best bound 3.752965871052e+03, gap 0.0000%
+Warning: general constraint 3911 and general constraint 3916 have the same name "v0->v1_o1_enter->leaveabsX"

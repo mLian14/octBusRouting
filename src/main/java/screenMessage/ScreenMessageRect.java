@@ -62,7 +62,7 @@ public class ScreenMessageRect extends RetrieveGurobi{
             System.out.println("=-=-=-=-=-=-=-=-=-==-=-=-=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-");
         }
         //As input for OctilinearFixSlavesRouting
-        System.out.println("Obstacles:");
+        System.out.println("Obstacles");
         for (Obstacle o : obstacles){
             System.out.println(o.getMinX() + " " + o.getMaxX() + " " + o.getMinY() + " " + o.getMaxY());
         }
