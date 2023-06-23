@@ -2,6 +2,7 @@ package screenMessage;
 
 import grb.GurobiVariable;
 import gurobi.GRBException;
+import parser.OutputDocument;
 
 /**
  * @auther lianmeng
@@ -9,6 +10,11 @@ import gurobi.GRBException;
  */
 public class RetrieveGurobi {
 
+    public OutputDocument output;
+
+    public RetrieveGurobi(OutputDocument output) {
+        this.output = output;
+    }
 
     protected String convertGrbIntArrayToString(GurobiVariable[] grbIntArray) throws GRBException {
         StringBuilder grbAsString = new StringBuilder("[");

@@ -25,6 +25,7 @@ public class Obstacle {
     private ArrayList<Obstacle> dLObstacles, dRObstacles, dTObstacles, dBObstacles;
 
 
+
     public Obstacle(String name, int minX, int maxX, int minY, int maxY) {
         this.name = name;
         this.minX = minX;

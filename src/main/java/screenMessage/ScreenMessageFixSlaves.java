@@ -2,12 +2,14 @@ package screenMessage;
 
 import grb.GurobiVariable;
 import gurobi.GRBException;
+import parser.OutputDocument;
 import shapeVar.OctFirstVirtualPointFixSlaveVar;
 import shapeVar.OctVirtualPointFixSlaveVar;
 import shapes.Obstacle;
 import shapes.PseudoBase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -20,7 +22,8 @@ public class ScreenMessageFixSlaves extends RetrieveGurobi {
     public PseudoBase master;
     public GurobiVariable busMin, busXY, branchMin, branchXY;
 
-    public ScreenMessageFixSlaves(ArrayList<Obstacle> obstacles, ArrayList<OctVirtualPointFixSlaveVar> octVirtualPointFixSlaveVars, PseudoBase master, GurobiVariable busMin, GurobiVariable busXY, GurobiVariable branchMin, GurobiVariable branchXY) {
+    public ScreenMessageFixSlaves(OutputDocument output, ArrayList<Obstacle> obstacles, ArrayList<OctVirtualPointFixSlaveVar> octVirtualPointFixSlaveVars, PseudoBase master, GurobiVariable busMin, GurobiVariable busXY, GurobiVariable branchMin, GurobiVariable branchXY) {
+        super(output);
         this.obstacles = obstacles;
         this.octVirtualPointFixSlaveVars = octVirtualPointFixSlaveVars;
         this.master = master;
@@ -30,33 +33,64 @@ public class ScreenMessageFixSlaves extends RetrieveGurobi {
         this.branchXY = branchXY;
     }
 
+
     public void showResult() throws GRBException {
         System.out.println("busMin= " + busMin.getIntResult());
         System.out.println("busXY= " + busXY.getIntResult());
         System.out.println("branchMin= " + branchMin.getIntResult());
         System.out.println("branchXY= " + branchXY.getIntResult());
 
+        ArrayList<PseudoBase> orderedSlaves = new ArrayList<>();
+        ArrayList<PseudoBase> virtualPoints = new ArrayList<>();
         for (OctVirtualPointFixSlaveVar vp : octVirtualPointFixSlaveVars){
             PseudoBase sv = vp.slave;
+            orderedSlaves.add(sv);
             int i = octVirtualPointFixSlaveVars.indexOf(vp);
             System.out.println("v" + i + " (" + vp.x.getIntResult() + ", " + vp.y.getIntResult() + ")");
             String name = "v" + i;
+            //virtualPoints.add(new PseudoBase(vp.x.getIntResult(), vp.y.getIntResult(), name));
             if (vp instanceof OctFirstVirtualPointFixSlaveVar){
                OctFirstVirtualPointFixSlaveVar vF = (OctFirstVirtualPointFixSlaveVar) vp;
                 String vmName = name + "->" + master.getName() + "(" + master.getX() + ", " + master.getY() + ")";
                 String beCnnName = master.getName() + "(" + master.getX() + ", " + master.getY() + ")";
                 retrieveDetour(name, vmName, beCnnName, vF.vm_dist_cqs, vF.vm_detour_q, vF.relObstacles_q, vF.vm_enterCorner_qs, vF.vm_leaveCorner_qs, vF.vm_enterCoordinate_iqs, vF.vm_leaveCoordinate_iqs, vF.vm_startEndObstacles_qs, vF.vm_dOut_cqs, vF.vm_dIn_cqs, vF.vm_omOnCnn_q, vF.vm_dOmOn_cqs);
+
             }
             //vp->vp
             String vvName = name + "->v" + (i+1);
             String beCnnName = "v" + (i+1);
             retrieveDetour(name, vvName, beCnnName, vp.dist_cqs, vp.detour_q, vp.relObstacles_q, vp.enterCorner_qs, vp.leaveCorner_qs, vp.enterCoordinate_iqs, vp.leaveCoordinate_iqs, vp.startEndObstacles_qs, vp.dOut_cqs, vp.dIn_cqs, vp.omOnCnn_q, vp.dOmOn_cqs);
 
+            //debug
+            for (Obstacle o : obstacles){
+                System.out.print(o.getName() + ": ");
+                System.out.print("rel_qs=" + convertGrbIntArrayToString(vp.rel_qs.get(o)));
+                System.out.print("relD_qs=" + convertGrbIntArrayToString(vp.relD_qs.get(o)));
+
+                System.out.println();
+            }
+
             String vsName = name + "->" + sv.getName() + "(" + sv.getX() + ", " + sv.getY() + ")";
             beCnnName = sv.getName() + "(" + sv.getX() + ", " + sv.getY() + ")";
             retrieveDetour(name, vsName, beCnnName, vp.vs_dist_cqs, vp.vs_detour_q, vp.vs_relObstacles_q, vp.vs_enterCorner_qs, vp.vs_leaveCorner_qs, vp.vs_enterCoordinate_iqs, vp.vs_leaveCoordinate_iqs, vp.vs_startEndObstacles_qs, vp.vs_dOut_cqs, vp.vs_dIn_cqs, vp.vs_omOnCnn_q, vp.vs_dOmOn_cqs);
+            //debug
+            for (Obstacle o : obstacles){
+                System.out.print(o.getName() + ": ");
+                System.out.print("sv_rel_qs= " + Arrays.toString(sv.getPseudo_oRel_qs().get(o)));
+                System.out.println();
+            }
             System.out.println("=-=-=-=-=-=-=-=-=-==-=-=-=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-");
         }
+//        for (Obstacle o : obstacles){
+//            System.out.println(o.getName());
+//            System.out.println("O_tL: " + convertObstacleArrayToString(o.get_tLObstacles()));
+//            System.out.println("O_tR: " + convertObstacleArrayToString(o.get_tRObstacles()));
+//            System.out.println("O_bL: " + convertObstacleArrayToString(o.get_bLObstacles()));
+//            System.out.println("O_bR: " + convertObstacleArrayToString(o.get_bRObstacles()));
+//        }
+
+        output.setSlaves(orderedSlaves);
+        output.setVirtualPoints(virtualPoints);
 
 
 
@@ -96,6 +130,17 @@ public class ScreenMessageFixSlaves extends RetrieveGurobi {
         }else {
             System.out.println(baseName + "No detour!" + convertGrbIntArrayToString(dist_cqs));
         }
+    }
+
+    public String convertObstacleArrayToString(ArrayList<Obstacle> obstacles) {
+
+        StringBuilder arrayAsString = new StringBuilder("||");
+        for (Obstacle o : obstacles) {
+            arrayAsString.append(o.getName() + "; ");
+        }
+        arrayAsString.append("||");
+        arrayAsString.append("\n");
+        return arrayAsString.toString();
     }
 
 

@@ -2,6 +2,7 @@ package screenMessage;
 
 import grb.GurobiVariable;
 import gurobi.GRBException;
+import parser.OutputDocument;
 import shapeVar.RectFirstVirtualPointVar;
 import shapeVar.RectVirtualPointVar;
 import shapes.Obstacle;
@@ -21,7 +22,8 @@ public class ScreenMessageRect extends RetrieveGurobi{
     public PseudoBase master;
     public GurobiVariable busLength, branchLength;
 
-    public ScreenMessageRect(ArrayList<Obstacle> obstacles, ArrayList<RectVirtualPointVar> rectVirtualPointVars, ArrayList<PseudoBase> slaves, PseudoBase master, GurobiVariable busLength, GurobiVariable branchLength) {
+    public ScreenMessageRect(OutputDocument output, ArrayList<Obstacle> obstacles, ArrayList<RectVirtualPointVar> rectVirtualPointVars, ArrayList<PseudoBase> slaves, PseudoBase master, GurobiVariable busLength, GurobiVariable branchLength) {
+        super(output);
         this.obstacles = obstacles;
         this.rectVirtualPointVars = rectVirtualPointVars;
         this.slaves = slaves;
@@ -30,16 +32,19 @@ public class ScreenMessageRect extends RetrieveGurobi{
         this.branchLength = branchLength;
     }
 
+
     public void showResult() throws GRBException {
 
         System.out.println("busLength= " + busLength.getIntResult());
         System.out.println("branchLength= " + branchLength.getIntResult());
 
         ArrayList<PseudoBase> orderedSlaves = new ArrayList<>();
+        ArrayList<PseudoBase> virtualPoints = new ArrayList<>();
         for (RectVirtualPointVar vp : rectVirtualPointVars){
             int i = rectVirtualPointVars.indexOf(vp);
             System.out.println("v" + i + " (" + vp.x.getIntResult() + ", " + vp.y.getIntResult() + ")");
             String name = "v" + i;
+            //virtualPoints.add(new PseudoBase(vp.x.getIntResult(), vp.y.getIntResult(), name));
             if (vp instanceof RectFirstVirtualPointVar){
                 RectFirstVirtualPointVar vF = (RectFirstVirtualPointVar) vp;
                 String vmName = name + "->" + master.getName() + "(" + master.getX() + ", " + master.getY() + ")";
@@ -61,6 +66,10 @@ public class ScreenMessageRect extends RetrieveGurobi{
             }
             System.out.println("=-=-=-=-=-=-=-=-=-==-=-=-=--=-=-=-=-=-=-=-=-=-=-=-==-=-=-=-=-=-=-=-");
         }
+
+        output.setSlaves(orderedSlaves);
+        output.setVirtualPoints(virtualPoints);
+
         //As input for OctilinearFixSlavesRouting
         System.out.println("Obstacles");
         for (Obstacle o : obstacles){
@@ -88,7 +97,7 @@ public class ScreenMessageRect extends RetrieveGurobi{
                 if (relObstacles_q.get(o).getIntResult() == 1){
                     System.out.print(o.getName() + ": ");
                     System.out.print("corner= " + convertGrbIntArrayToString(corner_qs.get(o)) + "-");
-                    System.out.print("(" + oCoordinate_iqs.get(o)[0] + ", " + oCoordinate_iqs.get(o)[1] + ")");
+                    System.out.print("(" + oCoordinate_iqs.get(o)[0].getIntResult() + ", " + oCoordinate_iqs.get(o)[1].getIntResult() + ")");
                     System.out.println();
                     if (startEndObstacles_qs.get(o)[0].getIntResult() == 1){
                         System.out.print(name + "->" + o.getName() + ":");

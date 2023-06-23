@@ -621,48 +621,70 @@ public class BuildConsForFixSlaves extends BuildCons {
     private void buildCons_oCoordinate(String nickName, Obstacle o, GurobiVariable[] coordinates, GurobiVariable[] corner_qs, GurobiVariable relObstacles_q) {
         GurobiConstraint c;
         //todo: we may try "="
+
         c = new GurobiConstraint();
-        c.setName(nickName + "Cor.x_leq");
+        c.setName(nickName + "Cor.x");
         c.addToLHS(coordinates[0], 1.0);
-        c.setSense('<');
+        c.setSense('=');
         c.addToRHS(corner_qs[0], o.getMinX());
         c.addToRHS(corner_qs[1], o.getMinX());
         c.addToRHS(corner_qs[2], o.getMaxX());
         c.addToRHS(corner_qs[3], o.getMaxX());
-        c.addToRHS(relObstacles_q, -M);
-        c.setRHSConstant(M);
+        executor.addConstraint(c);
         c = new GurobiConstraint();
-        c.setName(nickName + "Cor.x_geq");
-        c.addToLHS(coordinates[0], 1.0);
-        c.setSense('>');
-        c.addToRHS(corner_qs[0], o.getMinX());
-        c.addToRHS(corner_qs[1], o.getMinX());
-        c.addToRHS(corner_qs[2], o.getMaxX());
-        c.addToRHS(corner_qs[3], o.getMaxX());
-        c.addToRHS(relObstacles_q, M);
-        c.setRHSConstant(-M);
-        c = new GurobiConstraint();
-        c.setName(nickName + "Cor.y_leq");
+        c.setName(nickName + "Cor.y");
         c.addToLHS(coordinates[1], 1.0);
-        c.setSense('<');
+        c.setSense('=');
         c.addToRHS(corner_qs[0], o.getMinY());
         c.addToRHS(corner_qs[3], o.getMinY());
         c.addToRHS(corner_qs[1], o.getMaxY());
         c.addToRHS(corner_qs[2], o.getMaxY());
-        c.addToRHS(relObstacles_q, -M);
-        c.setRHSConstant(M);
         executor.addConstraint(c);
-        c = new GurobiConstraint();
-        c.setName(nickName + "Cor.y_geq");
-        c.addToLHS(coordinates[1], 1.0);
-        c.setSense('>');
-        c.addToRHS(corner_qs[0], o.getMinY());
-        c.addToRHS(corner_qs[3], o.getMinY());
-        c.addToRHS(corner_qs[1], o.getMaxY());
-        c.addToRHS(corner_qs[2], o.getMaxY());
-        c.addToRHS(relObstacles_q, M);
-        c.setRHSConstant(-M);
-        executor.addConstraint(c);
+
+//        c = new GurobiConstraint();
+//        c.setName(nickName + "Cor.x_leq");
+//        c.addToLHS(coordinates[0], 1.0);
+//        c.setSense('<');
+//        c.addToRHS(corner_qs[0], o.getMinX());
+//        c.addToRHS(corner_qs[1], o.getMinX());
+//        c.addToRHS(corner_qs[2], o.getMaxX());
+//        c.addToRHS(corner_qs[3], o.getMaxX());
+//        c.addToRHS(relObstacles_q, -M);
+//        c.setRHSConstant(M);
+//        executor.addConstraint(c);
+//        c = new GurobiConstraint();
+//        c.setName(nickName + "Cor.x_geq");
+//        c.addToLHS(coordinates[0], 1.0);
+//        c.setSense('>');
+//        c.addToRHS(corner_qs[0], o.getMinX());
+//        c.addToRHS(corner_qs[1], o.getMinX());
+//        c.addToRHS(corner_qs[2], o.getMaxX());
+//        c.addToRHS(corner_qs[3], o.getMaxX());
+//        c.addToRHS(relObstacles_q, M);
+//        c.setRHSConstant(-M);
+//        executor.addConstraint(c);
+//        c = new GurobiConstraint();
+//        c.setName(nickName + "Cor.y_leq");
+//        c.addToLHS(coordinates[1], 1.0);
+//        c.setSense('<');
+//        c.addToRHS(corner_qs[0], o.getMinY());
+//        c.addToRHS(corner_qs[3], o.getMinY());
+//        c.addToRHS(corner_qs[1], o.getMaxY());
+//        c.addToRHS(corner_qs[2], o.getMaxY());
+//        c.addToRHS(relObstacles_q, -M);
+//        c.setRHSConstant(M);
+//        executor.addConstraint(c);
+//        c = new GurobiConstraint();
+//        c.setName(nickName + "Cor.y_geq");
+//        c.addToLHS(coordinates[1], 1.0);
+//        c.setSense('>');
+//        c.addToRHS(corner_qs[0], o.getMinY());
+//        c.addToRHS(corner_qs[3], o.getMinY());
+//        c.addToRHS(corner_qs[1], o.getMaxY());
+//        c.addToRHS(corner_qs[2], o.getMaxY());
+//        c.addToRHS(relObstacles_q, M);
+//        c.setRHSConstant(-M);
+//        executor.addConstraint(c);
     }
 
     /**
@@ -1161,7 +1183,6 @@ public class BuildConsForFixSlaves extends BuildCons {
         c.addToRHS(vp.relObstacles_q.get(o), 8.0);
         executor.addConstraint(c);
     }
-
     private void buildCons_oppositeRelations(String nickname, OctVirtualPointFixSlaveVar vp, PseudoBase base, Obstacle o, Map<Obstacle, GurobiVariable[]> vpRelObstacles_qs, Map<Obstacle, GurobiVariable[]> vpRelObstaclesD_qs) {
         GurobiConstraint c;
         //1.ul->lr

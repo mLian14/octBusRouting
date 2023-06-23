@@ -48,7 +48,7 @@ public class Processor {
         return processToOutputForFixSlaves(input.getName(), input.getMaster(), input.getSlaves(), input.getObstacles(), input.getBusC(), input.getSlaveC());
     }
     public OutputDocument processToOutputForFixSlaves(String caseName, PseudoBase master, ArrayList<PseudoBase> slaves, ArrayList<Obstacle> obstacles, double busC, double slaveC) throws GRBException {
-        OutputDocument output = new OutputDocument(caseName);
+        OutputDocument output = new OutputDocument(caseName, master, obstacles);
         /*
         Determine the pseudo Variables of Master and slaves
          */
@@ -105,7 +105,7 @@ public class Processor {
 
         gurobiStatus(status);
 
-        ScreenMessageFixSlaves screenMessage = new ScreenMessageFixSlaves(obstacles, vps, master, busMin, busXY, branchMin, branchXY);
+        ScreenMessageFixSlaves screenMessage = new ScreenMessageFixSlaves(output, obstacles, vps, master, busMin, busXY, branchMin, branchXY);
         screenMessage.showResult();
 
 
@@ -125,7 +125,7 @@ public class Processor {
 
     public OutputDocument processToOutputForRectRouting(String caseName, PseudoBase master, ArrayList<PseudoBase> slaves, ArrayList<Obstacle> obstacles, double busC, double slaveC) throws GRBException{
 
-        OutputDocument output = new OutputDocument(caseName);
+        OutputDocument output = new OutputDocument(caseName, master, obstacles);
         /*
         Determine the pseudo Variables of Master and slaves
          */
@@ -176,7 +176,7 @@ public class Processor {
 
         gurobiStatus(status);
 
-        ScreenMessageRect screenMessage = new ScreenMessageRect(obstacles, vps, slaves, master, busLength, branchLength);
+        ScreenMessageRect screenMessage = new ScreenMessageRect(output, obstacles, vps, slaves, master, busLength, branchLength);
         screenMessage.showResult();
 
 

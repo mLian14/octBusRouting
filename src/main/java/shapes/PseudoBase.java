@@ -43,15 +43,11 @@ public class PseudoBase {
 
 
 
-
     public PseudoBase(int x, int y) {
         this.x = x;
         this.y = y;
         this.pseudo_oDir_qs = new HashMap<>();
         this.pseudo_oRel_qs = new HashMap<>();
-
-
-
 
     }
 
