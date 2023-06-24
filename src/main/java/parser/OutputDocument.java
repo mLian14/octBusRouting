@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class OutputDocument {
 
 
+    private double totalWireLength;
     private final String name;
     private final PseudoBase master;
     private final ArrayList<Obstacle> obstacles;
@@ -25,6 +26,14 @@ public class OutputDocument {
         this.obstacles = obstacles;
         this.virtualPoints = new ArrayList<>();
         this.slaves = new ArrayList<>();
+    }
+
+    public double getTotalWireLength() {
+        return totalWireLength;
+    }
+
+    public void setTotalWireLength(double totalWireLength) {
+        this.totalWireLength = totalWireLength;
     }
 
     public ArrayList<PseudoBase> getVirtualPoints() {

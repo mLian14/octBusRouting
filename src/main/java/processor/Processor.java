@@ -22,6 +22,7 @@ import shapes.PseudoBase;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @auther lianmeng
@@ -37,6 +38,27 @@ public class Processor {
 
     public Processor() {
         this.parser = new DocumentParser();
+    }
+
+    public ArrayList<Double> processSlaveSequence(String path) throws GRBException{
+        parser.parseInputToDocument(path);
+        Document input = parser.getParseDoc();
+        String[] names = path.split("/");
+        input.setName(names[names.length - 1]);
+
+        ArrayList<Double> totalWireLengths = new ArrayList<>();
+        List<ArrayList<PseudoBase>> slavePermutations = PermutationGenerator.generatePermutations(input.getSlaves());
+        int stepSize = 7;
+        for (int i = 0; i < slavePermutations.size(); i += stepSize){
+            ArrayList<PseudoBase> newSlaves = slavePermutations.get(i);
+            for (PseudoBase sv : newSlaves){
+                System.out.print(sv.getName() + "-");
+            }
+            System.out.println();
+            OutputDocument output = processToOutputForFixSlaves(input.getName(), input.getMaster(), newSlaves, input.getObstacles(), input.getBusC(), input.getSlaveC());
+            totalWireLengths.add(output.getTotalWireLength());
+        }
+        return totalWireLengths;
     }
 
     public OutputDocument processToOutputForFixSlaves(String path) throws GRBException {
@@ -109,6 +131,9 @@ public class Processor {
         screenMessage.showResult();
 
 
+        // Dispose of model and environment
+        executor.getModel().dispose();
+        executor.getEnv().dispose();
         return output;
     }
 

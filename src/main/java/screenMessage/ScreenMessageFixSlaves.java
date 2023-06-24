@@ -40,6 +40,9 @@ public class ScreenMessageFixSlaves extends RetrieveGurobi {
         System.out.println("branchMin= " + branchMin.getIntResult());
         System.out.println("branchXY= " + branchXY.getIntResult());
 
+        double totalWireLength = Math.sqrt(2) * (busMin.getIntResult() + branchMin.getIntResult()) + busXY.getIntResult() + branchXY.getIntResult();
+        output.setTotalWireLength(totalWireLength);
+
         ArrayList<PseudoBase> orderedSlaves = new ArrayList<>();
         ArrayList<PseudoBase> virtualPoints = new ArrayList<>();
         for (OctVirtualPointFixSlaveVar vp : octVirtualPointFixSlaveVars){
