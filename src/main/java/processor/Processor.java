@@ -48,7 +48,7 @@ public class Processor {
 
         ArrayList<Double> totalWireLengths = new ArrayList<>();
         List<ArrayList<PseudoBase>> slavePermutations = PermutationGenerator.generatePermutations(input.getSlaves());
-        int stepSize = 7;
+        int stepSize = 40;
         for (int i = 0; i < slavePermutations.size(); i += stepSize){
             ArrayList<PseudoBase> newSlaves = slavePermutations.get(i);
             for (PseudoBase sv : newSlaves){

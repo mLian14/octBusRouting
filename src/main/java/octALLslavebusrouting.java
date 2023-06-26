@@ -21,8 +21,8 @@ public class octALLslavebusrouting {
         Processor processor = new Processor();
 
 //        OutputDocument output = processor.processToOutputForFixSlaves("input_octilinear/case1/case1_I2C4");
-        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case5/case5_I2C2");
-//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case1/case1_I2C4");
+//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case5/case5_I2C2");
+        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case1/case1_I2C4");
         for (double length : totalWireLengths){
             System.out.println(length);
         }
