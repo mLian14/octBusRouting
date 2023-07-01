@@ -19,7 +19,7 @@ public class rectBusRouting {
         System.out.println("Program Starts at: " + DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss.SSS").format(start));
         Processor processor = new Processor();
 
-        OutputDocument output = processor.processToOutputForRectRouting("input_octilinear/case1/case1_I2C4");
+//        OutputDocument output = processor.processToOutputForRectRouting("input_octilinear/case1/case1_I2C4");
 //        OutputDocument output = processor.processToOutputForRectRouting("input_octilinear/case1/case1_I2C0");
 //        OutputDocument output = processor.processToOutputForRectRouting("input_octilinear/case1/case1_I2C6");
 //        OutputDocument output = processor.processToOutputForRectRouting("input_octilinear/case4/case4_I2C0");
@@ -31,7 +31,7 @@ public class rectBusRouting {
 //        OutputDocument output = processor.processToOutputForRectRouting("input_octilinear/case5/case5_I2C2");
 //        OutputDocument output = processor.processToOutputForRectRouting("input_octilinear/case5/case5_I2C4");
 //        OutputDocument output = processor.processToOutputForRectRouting("input_octilinear/case6/case6_I2C0");
-//        OutputDocument output = processor.processToOutputForRectRouting("input_octilinear/case6/case6_I2C1");
+        OutputDocument output = processor.processToOutputForRectRouting("input_octilinear/case6/case6_I2C1");
 
 
         LocalDateTime end = LocalDateTime.now();
