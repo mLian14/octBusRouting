@@ -21,8 +21,19 @@ public class octALLslavebusrouting {
         Processor processor = new Processor();
 
 //        OutputDocument output = processor.processToOutputForFixSlaves("input_octilinear/case1/case1_I2C4");
-//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case5/case5_I2C2");
-        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case1/case1_I2C4");
+//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case1/case1_I2C0", 1008);
+//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case4/case4_I2C0", 1008);
+//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case4/case4_I2C3", 6);
+//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case4/case4_I2C4", 1200);
+//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case4/case4_I2C6", 6);
+//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case5/case5_I2C0", 1200);
+//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case5/case5_I2C1", 120);
+//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case5/case5_I2C2", 6);
+
+//        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case5/case5_I2C4", 1200);
+
+        ArrayList<Double> totalWireLengths = processor.processSlaveSequence("input_octilinear/case6/case6_I2C1", 120);
+
         for (double length : totalWireLengths){
             System.out.println(length);
         }

@@ -40,16 +40,16 @@ public class Processor {
         this.parser = new DocumentParser();
     }
 
-    public ArrayList<Double> processSlaveSequence(String path) throws GRBException{
+    public ArrayList<Double> processSlaveSequence(String path, int desiredCount) throws GRBException{
         parser.parseInputToDocument(path);
         Document input = parser.getParseDoc();
         String[] names = path.split("/");
         input.setName(names[names.length - 1]);
 
         ArrayList<Double> totalWireLengths = new ArrayList<>();
-        List<ArrayList<PseudoBase>> slavePermutations = PermutationGenerator.generatePermutations(input.getSlaves());
-        int stepSize = 40;
-        for (int i = 0; i < slavePermutations.size(); i += stepSize){
+        List<ArrayList<PseudoBase>> slavePermutations = PermutationGenerator.generateRandomPermutations(input.getSlaves(), desiredCount);
+
+        for (int i = 0; i < slavePermutations.size(); i ++){
             ArrayList<PseudoBase> newSlaves = slavePermutations.get(i);
             for (PseudoBase sv : newSlaves){
                 System.out.print(sv.getName() + "-");
@@ -82,8 +82,8 @@ public class Processor {
         VVVV
          */
         executor = new GurobiExecutor("octilinearBusRouting");
-        executor.setMIPGap(0);
-        executor.setMIPGapAbs(0);
+        executor.setMIPGap(0.02);
+        executor.setMIPGapAbs(0.02);
 //        executor.setTimeLimit(200);
         executor.setTimeLimit(36000);
 

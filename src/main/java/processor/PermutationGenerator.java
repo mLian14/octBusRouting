@@ -6,8 +6,7 @@ package processor;
  */
 import shapes.PseudoBase;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PermutationGenerator {
 
@@ -40,6 +39,40 @@ public class PermutationGenerator {
         PseudoBase temp = input.get(i);
         input.set(i, input.get(j));
         input.set(j, temp);
+    }
+
+    public static List<ArrayList<PseudoBase>> generateRandomPermutations(ArrayList<PseudoBase> input, int desiredCount) {
+        List<ArrayList<PseudoBase>> permutations = new ArrayList<>();
+        int totalPermutations = Math.min(factorial(input.size()), desiredCount);
+
+        if (totalPermutations == factorial(input.size())) {
+            // Generate all possible permutations in case desired count equals total count
+            return generatePermutations(input);
+        }
+
+        Set<List<PseudoBase>> uniquePermutations = new HashSet<>();
+        Random random = new Random();
+
+        while (uniquePermutations.size() < totalPermutations) {
+            ArrayList<PseudoBase> randomPermutation = new ArrayList<>(input);
+            for (int i = 0; i < input.size() - 1; i++) {
+                int randomIndex = random.nextInt(input.size() - i) + i;
+                swap(randomPermutation, i, randomIndex);
+            }
+            uniquePermutations.add(randomPermutation);
+        }
+
+        for (List<PseudoBase> uniquePermutation : uniquePermutations) {
+            permutations.add(new ArrayList<>(uniquePermutation));
+        }
+
+        return permutations;
+    }
+
+    private static int factorial(int n) {
+        if (n <= 1)
+            return 1;
+        return n * factorial(n - 1);
     }
 }
 
